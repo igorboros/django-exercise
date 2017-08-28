@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} 
+{{ page_title }} || {{ block.super }} 
+{% endblock head_title %}
+
+{% block content %}
+<h1>{{ page_header}}</h1>
+
+
+<form method="post" action="" class="">
+	{{ formset.management_form }}
+	{% crispy form %}
+	<h3>Locations</h3>
+	<table class="table">
+		<thead>
+			<th>Time</th>
+			<th>Longitude</th>
+			<th>Latitude</th>
+			<th>Elevation</th>
+			<th></th>
+		</thead>
+		<tbody>
+			{% crispy formset formset.form.helper %}
+		</tbody>
+	</table>
+	<input class="submit" type="submit" value="Submit data">
+</form>
+{% endblock content %}

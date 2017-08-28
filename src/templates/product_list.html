@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+	<h1>{{ page_title }}</h1>
+	<form method="POST">
+	{% csrf_token %}
+	<table class="table">
+		<thead>
+		<tr>
+			<th></th>
+			<th>Id</th>
+			<th>Description</th>
+			<th>Last Location</th>
+			<th></th>
+			<th><th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for obj in queryset %}
+	<tr>
+		<td>
+			<input type="checkbox" id="product_{{ obj.id }}" name="product_{{ obj.id }}" />
+		</td>
+		<th scope="row">{{ obj.id }}</th>
+		<td>{{ obj.description }}</td>
+		<td>
+			{% if obj.has_locations %}
+				Latitude: {{ obj.get_last_location.latitude }},
+				Longitude: {{ obj.get_last_location.longitude }},
+				Elevation: {{ obj.get_last_location.elevation }}
+				on {{ obj.get_last_location.datetime }}	
+			{% endif %}
+		</td>
+		<td>
+			<a href="{{ obj.get_edit_url }}" class="btn btn-sm btn-primary" role="button">Details</a>
+		</td>
+		<td>
+			<a href="{{ obj.get_delete_url }}" class="btn btn-sm btn-danger" role="button">Delete</a>
+		</td>
+    </tr>
+	{% endfor %}
+	</tbody>
+	</table>
+	<input type="text" name="from_date" placeholder="From Date" />
+	<input type="text" name="end_date" placeholder="End Date" />
+	<input type="checkbox" id="export_to_csv" name="export_to_csv" /> Write to TXT
+	<input type="submit" value="Get Report" />
+	</form>
+	</div>
+{% endblock content %}

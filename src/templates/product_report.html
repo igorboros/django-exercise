@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+	<h1>{{ page_title }}</h1>
+	{% if write_to_csv %}
+		<p><a href="/products/download" class="btn btn-sm btn-primary" role="button">Download TXT Report</a></p>
+	{% endif %}
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Id</th>
+			<th>Description</th>
+			<th>Locations</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for obj in queryset %}
+	<tr>
+		<th scope="row">{{ obj.id }}</th>
+		<td>{{ obj.description }}</td>
+		<td>
+			{% for location in obj.locations.all %}
+				Latitude: {{ location.latitude }},
+				Longitude: {{ location.longitude }},
+				Elevation: {{ location.elevation }}
+				on {{ location.datetime }} <br />
+			{% endfor %}	
+		</td>
+    </tr>
+	{% endfor %}
+	</tbody>
+	</table>
+	</div>
+{% endblock content %}
